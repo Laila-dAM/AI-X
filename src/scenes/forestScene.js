@@ -3,10 +3,10 @@ import { AudioSystem } from "../systems/audioSystem.js";
 import { TileMap } from "../systems/tileMap.js";
 import { loadMap } from "../utils/mapLoader.js";
 import { Config } from "../core/config.js";
+import { EntityManager } from "../systems/entityManager.js";
 
 export class ForestScene {
 constructor() {
-this.player = null;
 this.map = null;
 this.ready = false;
 this.init();
@@ -15,7 +15,8 @@ this.init();
 async init() {
 const mapData = await loadMap("../data/maps/forest-map.json");
 this.map = new TileMap(mapData, Config.tileSize);
-this.player = new Player(100, 100);
+const player = new Player(100, 100);
+EntityManager.add(player);
 AudioSystem.playAmbient();
 this.ready = true;
 }
@@ -23,15 +24,14 @@ this.ready = true;
 update(delta) {
 if (!this.ready) return;
 
-const prevX = this.player.x;
-const prevY = this.player.y;
+EntityManager.update(delta);
 
-this.player.update(delta);
-
-if (this.map.checkCollision(this.player.x, this.player.y, this.player.size)) {
-this.player.x = prevX;
-this.player.y = prevY;
+EntityManager.entities.forEach(entity => {
+if (this.map.checkCollision(entity.x, entity.y, entity.size)) {
+entity.x = entity.prevX ?? entity.x;
+entity.y = entity.prevY ?? entity.y;
 }
+});
 }
 
 render(ctx) {
@@ -41,6 +41,6 @@ ctx.fillStyle = "#ffffff";
 ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
 
 this.map.render(ctx);
-this.player.render(ctx);
+EntityManager.render(ctx);
 }
 }
