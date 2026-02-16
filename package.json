@@ -1,0 +1,11 @@
+{
+  "name": "ai-x-engine",
+  "version": "1.0.0",
+  "description": "AI-X Experimental Game Engine",
+  "main": "src/main.js",
+  "scripts": {
+    "start": "live-server public"
+  },
+  "author": "Laila",
+  "license": "MIT"
+}
