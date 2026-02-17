@@ -1,3 +1,7 @@
+import { AccountSystem } from "../systems/accountSystem.js";
+
+const accountSystem = new AccountSystem();
+
 const playBtn = document.getElementById("play-btn");
 const aboutBtn = document.getElementById("about-btn");
 const loginBtn = document.getElementById("login-btn");
@@ -36,20 +40,18 @@ loginStatus.textContent = "Enter email and password.";
 return;
 }
 
-let users = JSON.parse(localStorage.getItem("aix_users")) || {};
+const result = accountSystem.registerOrLogin(email, password);
 
-if (!users[email]) {
-users[email] = { password: password, progress: {} };
-localStorage.setItem("aix_users", JSON.stringify(users));
-localStorage.setItem("aix_current_user", email);
-loginStatus.textContent = "Account created and logged in.";
-} else {
-if (users[email].password === password) {
-localStorage.setItem("aix_current_user", email);
-loginStatus.textContent = "Login successful.";
-} else {
-loginStatus.textContent = "Incorrect password.";
+if (result.status === "created") {
+loginStatus.textContent = "Account created successfully.";
 }
+
+if (result.status === "logged") {
+loginStatus.textContent = "Login successful.";
+}
+
+if (result.status === "error") {
+loginStatus.textContent = "Incorrect password.";
 }
 });
 
@@ -70,12 +72,13 @@ ctx.fillRect(0, 0, canvas.width, canvas.height);
 
 ctx.fillStyle = "#2aff87";
 ctx.font = "28px Arial";
-ctx.fillText("Game Engine Initialized", 50, 100);
+ctx.fillText("AI-X Engine Running", 50, 100);
 
-const user = localStorage.getItem("aix_current_user");
-if (user) {
-ctx.fillText("Logged as: " + user, 50, 150);
+if (accountSystem.isLoggedIn()) {
+const email = accountSystem.getCurrentUserEmail();
+ctx.fillText("User: " + email, 50, 150);
+accountSystem.saveProgress({ scene: "forest_intro" });
 } else {
-ctx.fillText("Playing as Guest", 50, 150);
+ctx.fillText("User: Guest", 50, 150);
 }
 }
