@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI-X</title>
+<link rel="stylesheet" href="../styles/main.css">
+</head>
+<body>
+<div id="game-container">
+<canvas id="game-canvas"></canvas>
+
+<div id="menu-ui" class="menu">
+<h1 class="title">AI-X</h1>
+
+<div class="menu-buttons">
+<button id="play-btn" class="menu-btn">Play</button>
+<button id="login-btn" class="menu-btn secondary">Login</button>
+<button id="about-btn" class="menu-btn secondary">About</button>
+</div>
+
+<div id="about-panel" class="about hidden">
+<p>AI-X is an educational interactive game designed to teach Artificial Intelligence through gameplay, quizzes, and adaptive learning systems. This project is a personal educational portfolio focused on logic, programming, and creative learning.</p>
+</div>
+
+<div id="login-panel" class="auth hidden">
+<h2 class="auth-title">Student Login</h2>
+<input id="email-input" type="email" placeholder="Email" class="auth-input">
+<input id="password-input" type="password" placeholder="Password" class="auth-input">
+<div class="auth-actions">
+<button id="submit-login" class="menu-btn">Enter</button>
+<button id="close-login" class="menu-btn secondary">Back</button>
+</div>
+<div id="login-status" class="status-text"></div>
+</div>
+
+</div>
+
+<div id="dialogue-box" class="dialogue hidden">
+<div id="dialogue-text"></div>
+</div>
+</div>
+
+<script type="module" src="../src/core/main.js"></script>
+</body>
+</html>
